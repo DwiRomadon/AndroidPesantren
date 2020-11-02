@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_blue_grey_50"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:drawableTint="@color/colorPrimaryDark"
             android:background="@drawable/rounded_background"
             android:drawableLeft="@drawable/ic_search"
-            android:hint="Cari Nama Puskesmas..."/>
+            android:hint="Cari Nama Pesantren..."/>
 
     </LinearLayout>
 

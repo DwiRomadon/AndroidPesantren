@@ -61,7 +61,8 @@ import java.util.Map;
 
 public class TambahData extends AppCompatActivity {
 
-    EditText edtNamaPesantren, edtNomorTelp, edtAkreditasi, edtNoNspp, edtWebsite, edtLat, edtLon;
+    EditText edtNamaPesantren, edtNomorTelp, edtAkreditasi, edtNoNspp, edtWebsite, edtLat, edtLon,
+            edtProfil, edtInfo, edtEkskul, edtNamaPemilik, edtPendidikan, edtFasilitas;
 
 
     Button takeImg1, btnSubmit;
@@ -107,6 +108,12 @@ public class TambahData extends AppCompatActivity {
         edtWebsite = (EditText) findViewById(R.id.et_website);
         edtLat = (EditText) findViewById(R.id.et_lat);
         edtLon = (EditText) findViewById(R.id.et_longi);
+        edtInfo = (EditText) findViewById(R.id.edt_info);
+        edtProfil = (EditText) findViewById(R.id.et_profile);
+        edtEkskul = (EditText) findViewById(R.id.edt_ekskul);
+        edtNamaPemilik = (EditText) findViewById(R.id.et_namaPemilik);
+        edtPendidikan = (EditText) findViewById(R.id.et_pendidikan);
+        edtFasilitas = (EditText) findViewById(R.id.et_fasilitas);
 
         takeImg1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,15 +134,33 @@ public class TambahData extends AppCompatActivity {
                 String akreditasi       = edtAkreditasi.getText().toString();
                 String noNspp           = edtNoNspp.getText().toString();
                 String web              = edtWebsite.getText().toString();
+                String info             = edtInfo.getText().toString();
+                String ekskull          = edtEkskul.getText().toString();
+                String profile          = edtProfil.getText().toString();
+                String pemilik          = edtNamaPemilik.getText().toString();
+                String pendidikan       = edtPendidikan.getText().toString();
+                String fasilitas        = edtFasilitas.getText().toString();
 
                 if (namaPesantren.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Nama Pesantren tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (pemilik.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Nama Pemilik tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else if (noTelp.isEmpty()){
                     Toast.makeText(getApplicationContext(), "No telphone tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else if (akreditasi.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Akreditasi tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else if (noNspp.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Nomor NSPP tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (pendidikan.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Pendidikan tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (fasilitas.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Fasilitas tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (profile.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Profile tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (info.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Info tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }else if (ekskull.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Ekskul tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else if (web.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Alamat Website tidak boleh kosong", Toast.LENGTH_LONG).show();
                 } else if (lati.isEmpty()){
@@ -143,7 +168,8 @@ public class TambahData extends AppCompatActivity {
                 }else if (longit.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Kordinat longitude tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else {
-                    inputData(bitmap1, namaPesantren, noTelp, akreditasi, noNspp, web, lati, longit);
+                    inputData(bitmap1, namaPesantren, noTelp, akreditasi, noNspp, web,
+                            lati, longit, profile, info, ekskull, pemilik, pendidikan, fasilitas);
                 }
             }
         });
@@ -300,7 +326,10 @@ public class TambahData extends AppCompatActivity {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void inputData(final Bitmap gmbr1, final String namaPes, final String noTep, final String akreditasi,final String noNspp,final String web, final String lat, final String longi) {
+    private void inputData(final Bitmap gmbr1, final String namaPes, final String noTep,
+                           final String akreditasi, final String noNspp, final String web, final String lat,
+                           final String longi, final String profile, final String info,
+                           final String ekskul, final String pemilik, final String pendidikan, final String fasilitas) {
         pDialog.setMessage("Mohon Tunggu .........");
         showDialog();
         VolleyMultipart volleyMultipartRequest = new VolleyMultipart(Request.Method.POST, BaseURL.inputPesantren,
@@ -317,7 +346,7 @@ public class TambahData extends AppCompatActivity {
                             boolean status= jsonObject.getBoolean("error");
                             if(status == false){
                                 Toast.makeText(getApplicationContext(), "Berhasil menginput data", Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(TambahData.this, Fasilitas.class);
+                                Intent i = new Intent(TambahData.this, TambahLogo.class);
                                 i.putExtra("_id", id);
                                 startActivity(i);
                                 finish();
@@ -347,6 +376,12 @@ public class TambahData extends AppCompatActivity {
                 params.put("akreditasi", akreditasi);
                 params.put("nomorNspp", noNspp);
                 params.put("website", web);
+                params.put("profile", profile);
+                params.put("info", info);
+                params.put("ekskul", ekskul);
+                params.put("pemilik", pemilik);
+                params.put("pendidikan", pendidikan);
+                params.put("fasilitas", fasilitas);
                 return params;
             }
             @Override

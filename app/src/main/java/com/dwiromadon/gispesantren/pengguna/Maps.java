@@ -100,7 +100,7 @@ public class Maps extends AppCompatActivity
         Mapbox.getInstance(this, "pk.eyJ1IjoiZHdpcjQiLCJhIjoiY2syeGZhOG0zMGFjMjNuczg1MXJ1M3ptayJ9.m4xcIOu0VAbXgcmXqHnWDQ");
         setContentView(R.layout.activity_maps);
 
-        getSupportActionBar().setTitle("Maps Puskesmas");
+        getSupportActionBar().setTitle("Maps Pesantren");
 
 
         mRequestQueue = Volley.newRequestQueue(this);
@@ -161,7 +161,7 @@ public class Maps extends AppCompatActivity
 
     @Override
     public void onBackPressed(){
-        Intent i = new Intent(Maps.this, Maps.class);
+        Intent i = new Intent(Maps.this, HomePengguna.class);
         startActivity(i);
         finish();
     }
@@ -350,7 +350,7 @@ public class Maps extends AppCompatActivity
 
                             MarkerOptions markerOptions = new MarkerOptions();
                             IconFactory iconFactory = IconFactory.getInstance(Maps.this);
-                            Icon icon = iconFactory.fromResource(R.drawable.ic_marker_pesantren);
+                            Icon icon = iconFactory.fromResource(R.drawable.ic_pin);
                             markerOptions.icon(icon);
 
                             for (int i =0; i < jsonArray.length(); i++){

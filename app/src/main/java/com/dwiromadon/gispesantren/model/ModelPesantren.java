@@ -3,7 +3,64 @@ package com.dwiromadon.gispesantren.model;
 public class ModelPesantren {
 
     String namaPesantren, nomorTelp, akreditasi, noNspp, website,
-            lati, longi, gambar, fasilitas, duration, jarak, _id, arrGambar, alamat;
+            lati, longi, gambar, fasilitas, duration, jarak, _id, arrGambar,
+            alamat, gambarIcon, ekskul, profile, info, pendidikan, pemilik, macAddress;
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
+
+    public String getPemilik() {
+        return pemilik;
+    }
+
+    public void setPemilik(String pemilik) {
+        this.pemilik = pemilik;
+    }
+
+    public String getGambarIcon() {
+        return gambarIcon;
+    }
+
+    public void setGambarIcon(String gambarIcon) {
+        this.gambarIcon = gambarIcon;
+    }
+
+    public String getEkskul() {
+        return ekskul;
+    }
+
+    public void setEkskul(String ekskul) {
+        this.ekskul = ekskul;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getPendidikan() {
+        return pendidikan;
+    }
+
+    public void setPendidikan(String pendidikan) {
+        this.pendidikan = pendidikan;
+    }
 
     public String getAlamat() {
         return alamat;

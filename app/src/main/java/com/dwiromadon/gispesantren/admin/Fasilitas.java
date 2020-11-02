@@ -106,7 +106,7 @@ public class Fasilitas extends AppCompatActivity {
                                         "Tidak",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                Intent i = new Intent(Fasilitas.this, HomeAdmin.class);
+                                                Intent i = new Intent(Fasilitas.this, TambahLogo.class);
                                                 i.putExtra("_id", _id);
                                                 startActivity(i);
                                                 finish();

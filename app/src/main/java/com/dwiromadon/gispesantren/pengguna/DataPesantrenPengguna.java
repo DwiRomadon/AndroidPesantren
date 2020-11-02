@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,7 +71,7 @@ public class DataPesantrenPengguna extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_pesantren_pengguna);
 
-        getSupportActionBar().setTitle("Puskesmas Terdekat");
+        getSupportActionBar().setTitle("Daftar Pesantren");
         mRequestQueue = Volley.newRequestQueue(this);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -94,6 +96,8 @@ public class DataPesantrenPengguna extends AppCompatActivity
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); //
+
+        cari();
     }
 
     private void getAllPet(JSONObject jsonObject) {
@@ -109,6 +113,7 @@ public class DataPesantrenPengguna extends AppCompatActivity
                             boolean status = response.getBoolean("error");
                             if (status == false) {
                                 String data = response.getString("data");
+                                Log.d("Data = ", data);
                                 JSONArray jsonArray = new JSONArray(data);
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -124,6 +129,13 @@ public class DataPesantrenPengguna extends AppCompatActivity
                                     final String nomorNspp = jsonObject.getString("nomorNspp");
                                     final String website = jsonObject.getString("website");
                                     final String fasilitas = jsonObject.getString("fasilitas");
+                                    final String gambarIcon = jsonObject.getString("gambar_icon");
+                                    final String profile = jsonObject.getString("profile");
+                                    final String info = jsonObject.getString("info");
+                                    final String ekskul = jsonObject.getString("ekskul");
+                                    final String pendidikan = jsonObject.getString("pendidikan");
+                                    final String pemilik = jsonObject.getString("pemilik");
+
                                     JSONObject jobjJarak = new JSONObject(jarak);
                                     JSONArray arrayGambar = new JSONArray(arrGambar);
                                     String gambar = arrayGambar.get(0).toString();
@@ -142,27 +154,41 @@ public class DataPesantrenPengguna extends AppCompatActivity
                                     pesantren.setLongi(lon);
                                     pesantren.setJarak(jarakDistance);
                                     pesantren.setFasilitas(fasilitas);
+                                    pesantren.setGambarIcon(gambarIcon);
+                                    pesantren.setProfile(profile);
+                                    pesantren.setInfo(info);
+                                    pesantren.setEkskul(ekskul);
+                                    pesantren.setPendidikan(pendidikan);
+                                    pesantren.setWebsite(website);
+                                    pesantren.setAkreditasi(akreditasi);
+                                    pesantren.setNoNspp(nomorNspp);
+                                    pesantren.setPemilik(pemilik);
 
-//                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                        @Override
-//                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                            // TODO Auto-generated method stub
-//                                            inputHistori(newsList.get(position).get_id());
-//                                            Intent a = new Intent(DataPuskesPengguna.this, DetailPuskesPengguna.class);
-//                                            a.putExtra("namaPuskes", newsList.get(position).getNamaPuskes());
-//                                            a.putExtra("_id", newsList.get(position).get_id());
-//                                            a.putExtra("alamat", newsList.get(position).getAlamat());
-//                                            a.putExtra("noTelp", newsList.get(position).getNotelp());
-//                                            a.putExtra("gambar", newsList.get(position).getArrGambar());
-//                                            a.putExtra("jambuka", newsList.get(position).getJamBuka());
-//                                            a.putExtra("lat", newsList.get(position).getLat());
-//                                            a.putExtra("lon", newsList.get(position).getLon());
-//                                            a.putExtra("fasilitas", newsList.get(position).getFasilitas());
-//                                            startActivity(a);
-//                                        }
-//                                    });
+                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            // TODO Auto-generated method stub
+                                            inputHistori(newsList.get(position).get_id());
+                                            Intent a = new Intent(DataPesantrenPengguna.this, DetailPonpes.class);
+                                            a.putExtra("_id", newsList.get(position).get_id());
+                                            a.putExtra("gambar", newsList.get(position).getArrGambar());
+                                            a.putExtra("gambar_icon", newsList.get(position).getGambarIcon());
+                                            a.putExtra("namaPesantren", newsList.get(position).getNamaPesantren());
+                                            a.putExtra("alamat", newsList.get(position).getAlamat());
+                                            a.putExtra("website", newsList.get(position).getWebsite());
+                                            a.putExtra("noTelp", newsList.get(position).getNomorTelp());
+                                            a.putExtra("profile", newsList.get(position).getProfile());
+                                            a.putExtra("info", newsList.get(position).getInfo());
+                                            a.putExtra("pendidikan", newsList.get(position).getPendidikan());
+                                            a.putExtra("ekskul", newsList.get(position).getEkskul());
+                                            a.putExtra("fasilitas", newsList.get(position).getFasilitas());
+                                            a.putExtra("latitude", newsList.get(position).getLati());
+                                            a.putExtra("longitude", newsList.get(position).getLongi());
+                                            a.putExtra("pemilik", newsList.get(position).getPemilik());
+                                            startActivity(a);
+                                        }
+                                    });
                                     newsList.add(pesantren);
-//                                    newsList.clear();
                                 }
                             }
                         } catch (JSONException e) {
@@ -302,104 +328,109 @@ public class DataPesantrenPengguna extends AppCompatActivity
         Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
     }
 
-//    public void cari(){
-//        edtSearch.addTextChangedListener(new TextWatcher() {
-//
-//            public void afterTextChanged(Editable s) {}
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//
-//            public void onTextChanged(CharSequence query, int start, int before, int count) {
-//
-//                query = query.toString().toLowerCase();
-//
-//                final List<ModelPetshop> filteredList = new ArrayList<ModelPetshop>();
-//
-//                for (int i = 0; i < newsList.size(); i++) {
-//
-//                    final String text = newsList.get(i).getNamaPetshop().toLowerCase();
-//                    if (text.contains(query)) {
-//                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                // TODO Auto-generated method stub
-//                                inputHistori(filteredList.get(position).get_id());
-//                                Intent a = new Intent(DataPetshopPengguna.this, DetailPetshopPengguna.class);
-//                                a.putExtra("namaPetshop", filteredList.get(position).getNamaPetshop());
-//                                a.putExtra("_id", filteredList.get(position).get_id());
-//                                a.putExtra("alamat", filteredList.get(position).getAlamat());
-//                                a.putExtra("noTelp", filteredList.get(position).getNotelp());
-//                                a.putExtra("gambar", filteredList.get(position).getArrGambar());
-//                                a.putExtra("jambuka", filteredList.get(position).getJamBuka());
-//                                a.putExtra("produk", filteredList.get(position).getProduk());
-//                                a.putExtra("jasa", filteredList.get(position).getJasa());
-//                                a.putExtra("lat", filteredList.get(position).getLat());
-//                                a.putExtra("lon", filteredList.get(position).getLon());
-//                                startActivity(a);
-//                            }
-//                        });
-//                        filteredList.add(newsList.get(i));
-//                    }
-//                }
-//                adapter = new AdapterPenggunaPetshop(DataPetshopPengguna.this, filteredList);
-//                list.setAdapter(adapter);
-//            }
-//        });
-//    }
+    public void cari(){
+        edtSearch.addTextChangedListener(new TextWatcher() {
 
-//    public void inputHistori(String _id){
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("id", _id);
-//        params.put("macAddress", getMacAddr());
-//        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BaseURL.inputHistory, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response.toString());
-//                            String strMsg = jsonObject.getString("msg");
-//                            boolean status= jsonObject.getBoolean("error");
-//                            if(status == false){
-//                                Log.d("Msg = ", strMsg);
-//                            }else {
-//                                Log.d("Msg = ", strMsg);
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.e("Error: ", error.getMessage());
-//            }
-//        });
-//        mRequestQueue.add(req);
-//    }
+            public void afterTextChanged(Editable s) {}
 
-//    public static String getMacAddr() {
-//        try {
-//            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-//            for (NetworkInterface nif : all) {
-//                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
-//
-//                byte[] macBytes = nif.getHardwareAddress();
-//                if (macBytes == null) {
-//                    return "";
-//                }
-//
-//                StringBuilder res1 = new StringBuilder();
-//                for (byte b : macBytes) {
-//                    res1.append(Integer.toHexString(b & 0xFF) + ":");
-//                }
-//                if (res1.length() > 0) {
-//                    res1.deleteCharAt(res1.length() - 1);
-//                }
-//                return res1.toString();
-//            }
-//        } catch (Exception ex) {
-//            //handle exception
-//        }
-//        return "";
-//    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+                query = query.toString().toLowerCase();
+
+                final List<ModelPesantren> filteredList = new ArrayList<ModelPesantren>();
+
+                for (int i = 0; i < newsList.size(); i++) {
+
+                    final String text = newsList.get(i).getNamaPesantren().toLowerCase();
+                    if (text.contains(query)) {
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                // TODO Auto-generated method stub
+                                inputHistori(filteredList.get(position).get_id());
+                                Intent a = new Intent(DataPesantrenPengguna.this, DetailPonpes.class);
+                                a.putExtra("_id", filteredList.get(position).get_id());
+                                a.putExtra("gambar", filteredList.get(position).getArrGambar());
+                                a.putExtra("gambar_icon", filteredList.get(position).getGambarIcon());
+                                a.putExtra("namaPesantren", filteredList.get(position).getNamaPesantren());
+                                a.putExtra("alamat", filteredList.get(position).getAlamat());
+                                a.putExtra("website", filteredList.get(position).getWebsite());
+                                a.putExtra("noTelp", filteredList.get(position).getNomorTelp());
+                                a.putExtra("profile", filteredList.get(position).getProfile());
+                                a.putExtra("info", filteredList.get(position).getInfo());
+                                a.putExtra("pendidikan", filteredList.get(position).getPendidikan());
+                                a.putExtra("ekskul", filteredList.get(position).getEkskul());
+                                a.putExtra("fasilitas", filteredList.get(position).getFasilitas());
+                                a.putExtra("latitude", filteredList.get(position).getLati());
+                                a.putExtra("longitude", filteredList.get(position).getLongi());
+                                a.putExtra("pemilik", filteredList.get(position).getPemilik());
+                                startActivity(a);
+                            }
+                        });
+                        filteredList.add(newsList.get(i));
+                    }
+                }
+                adapter = new AdapterPesantrenPengguna(DataPesantrenPengguna.this, filteredList);
+                list.setAdapter(adapter);
+            }
+        });
+    }
+
+    public void inputHistori(String _id){
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("id", _id);
+        params.put("macAddress", getMacAddr());
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BaseURL.inputHistory, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            String strMsg = jsonObject.getString("msg");
+                            boolean status= jsonObject.getBoolean("error");
+                            if(status == false){
+                                Log.d("Msg = ", strMsg);
+                            }else {
+                                Log.d("Msg = ", strMsg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+        mRequestQueue.add(req);
+    }
+
+    public static String getMacAddr() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(Integer.toHexString(b & 0xFF) + ":");
+                }
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+            //handle exception
+        }
+        return "";
+    }
 }

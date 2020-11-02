@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataPesantrenAdmin extends AppCompatActivity
         implements
@@ -123,6 +124,13 @@ public class DataPesantrenAdmin extends AppCompatActivity
                                     final String nomorNspp = jsonObject.getString("nomorNspp");
                                     final String website = jsonObject.getString("website");
                                     final String fasilitas = jsonObject.getString("fasilitas");
+                                    final String gambarIcon = jsonObject.getString("gambar_icon");
+                                    final String profile = jsonObject.getString("profile");
+                                    final String info = jsonObject.getString("info");
+                                    final String ekskul = jsonObject.getString("ekskul");
+                                    final String pendidikan = jsonObject.getString("pendidikan");
+                                    final String pemilik = jsonObject.getString("pemilik");
+
                                     JSONObject jobjJarak = new JSONObject(jarak);
                                     JSONArray arrayGambar = new JSONArray(arrGambar);
                                     String gambar = arrayGambar.get(0).toString();
@@ -130,37 +138,53 @@ public class DataPesantrenAdmin extends AppCompatActivity
                                     String destination = jobjJarak.getString("destination");
                                     String duration = jobjJarak.getString("duration");
 
+                                    pesantren.setDuration(duration);
                                     pesantren.setNamaPesantren(namaPesantren);
                                     pesantren.setAlamat(destination);
                                     pesantren.setNomorTelp(notelp);
                                     pesantren.setGambar(gambar);
                                     pesantren.setArrGambar(arrGambar);
-                                    pesantren.setWebsite(website);
-                                    pesantren.setNoNspp(website);
                                     pesantren.set_id(_id);
                                     pesantren.setLati(lat);
                                     pesantren.setLongi(lon);
+                                    pesantren.setJarak(jarakDistance);
                                     pesantren.setFasilitas(fasilitas);
+                                    pesantren.setGambarIcon(gambarIcon);
+                                    pesantren.setProfile(profile);
+                                    pesantren.setInfo(info);
+                                    pesantren.setEkskul(ekskul);
+                                    pesantren.setPendidikan(pendidikan);
+                                    pesantren.setWebsite(website);
+                                    pesantren.setAkreditasi(akreditasi);
+                                    pesantren.setNoNspp(nomorNspp);
+                                    pesantren.setPemilik(pemilik);
 
-//                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                        @Override
-//                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                            // TODO Auto-generated method stub
-//                                            Intent a = new Intent(DataPuskesmas.this, DetailPuskes.class);
-//                                            a.putExtra("namaPuskes", newsList.get(position).getNamaPuskes());
-//                                            a.putExtra("_id", newsList.get(position).get_id());
-//                                            a.putExtra("alamat", newsList.get(position).getAlamat());
-//                                            a.putExtra("noTelp", newsList.get(position).getNotelp());
-//                                            a.putExtra("gambar", newsList.get(position).getArrGambar());
-//                                            a.putExtra("jambuka", newsList.get(position).getJamBuka());
-//                                            a.putExtra("lat", newsList.get(position).getLat());
-//                                            a.putExtra("lon", newsList.get(position).getLon());
-//                                            a.putExtra("fasilitas", newsList.get(position).getFasilitas());
-//                                            startActivity(a);
-//                                        }
-//                                    });
+                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            // TODO Auto-generated method stub
+                                           Intent a = new Intent(DataPesantrenAdmin.this, EditHapusData.class);
+                                            a.putExtra("_id", newsList.get(position).get_id());
+                                            a.putExtra("gambar", newsList.get(position).getArrGambar());
+                                            a.putExtra("gambar_icon", newsList.get(position).getGambarIcon());
+                                            a.putExtra("namaPesantren", newsList.get(position).getNamaPesantren());
+                                            a.putExtra("alamat", newsList.get(position).getAlamat());
+                                            a.putExtra("website", newsList.get(position).getWebsite());
+                                            a.putExtra("noTelp", newsList.get(position).getNomorTelp());
+                                            a.putExtra("profile", newsList.get(position).getProfile());
+                                            a.putExtra("info", newsList.get(position).getInfo());
+                                            a.putExtra("pendidikan", newsList.get(position).getPendidikan());
+                                            a.putExtra("ekskul", newsList.get(position).getEkskul());
+                                            a.putExtra("fasilitas", newsList.get(position).getFasilitas());
+                                            a.putExtra("latitude", newsList.get(position).getLati());
+                                            a.putExtra("longitude", newsList.get(position).getLongi());
+                                            a.putExtra("pemilik", newsList.get(position).getPemilik());
+                                            a.putExtra("akreditasi", newsList.get(position).getAkreditasi());
+                                            a.putExtra("nomorNspp", newsList.get(position).getNoNspp());
+                                            startActivity(a);
+                                        }
+                                    });
                                     newsList.add(pesantren);
-//                                    newsList.clear();
                                 }
                             }
                         } catch (JSONException e) {

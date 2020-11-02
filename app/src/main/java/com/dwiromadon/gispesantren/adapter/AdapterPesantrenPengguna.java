@@ -2,11 +2,13 @@ package com.dwiromadon.gispesantren.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dwiromadon.gispesantren.R;
@@ -57,6 +59,7 @@ public class AdapterPesantrenPengguna extends BaseAdapter {
         TextView notelp      = (TextView) convertView.findViewById(R.id.txtNoTelp);
         TextView txtDuration = (TextView) convertView.findViewById(R.id.txtDuration);
         TextView jarak      = (TextView) convertView.findViewById(R.id.txtJarak);
+        LinearLayout lihatDetail      = (LinearLayout) convertView.findViewById(R.id.lihatDetail);
 
         namaPetshop.setText(item.get(position).getNamaPesantren());
         notelp.setText(item.get(position).getNomorTelp());
@@ -66,6 +69,10 @@ public class AdapterPesantrenPengguna extends BaseAdapter {
                 .resize(40, 40)
                 .centerCrop()
                 .into(gambar);
+
+        if (item.get(position).getMacAddress() != null){
+            lihatDetail.setVisibility(View.GONE);
+        }
         return convertView;
     }
 }

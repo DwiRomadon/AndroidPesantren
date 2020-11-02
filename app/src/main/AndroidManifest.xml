@@ -17,20 +17,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_icon_portrait"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_icon_portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".pengguna.Maps"></activity>
+        <activity android:name=".pengguna.TentangAplikasi"></activity>
+        <activity android:name=".admin.EditGambar" />
+        <activity android:name=".admin.EditHapusData" />
+        <activity android:name=".pengguna.History" />
+        <activity android:name=".admin.TambahLogo" />
+        <activity android:name=".admin.Pendidikan" />
+        <activity android:name=".pengguna.DetailPonpes" />
+        <activity android:name=".pengguna.Maps" />
         <activity android:name=".pengguna.DataPesantrenPengguna" />
         <activity android:name=".admin.DataPesantrenAdmin" />
         <activity android:name=".admin.Fasilitas" />
         <activity android:name=".admin.TambahData" />
         <activity android:name=".admin.HomeAdmin" />
-        <activity android:name=".pengguna.HomePengguna" /> <!-- <activity android:name=".users.LoginActivity"></activity> -->
-        <activity android:name=".users.LoginActivity">
+        <activity android:name=".users.LoginActivity" /> <!-- <activity android:name=".users.LoginActivity"></activity> -->
+        <activity android:name=".pengguna.HomePengguna">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
