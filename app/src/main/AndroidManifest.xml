@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".pengguna.TentangAplikasi"></activity>
+        <activity android:name=".pengguna.NavigateRoutes"></activity>
+        <activity android:name=".pengguna.TentangAplikasi" />
         <activity android:name=".admin.EditGambar" />
         <activity android:name=".admin.EditHapusData" />
         <activity android:name=".pengguna.History" />

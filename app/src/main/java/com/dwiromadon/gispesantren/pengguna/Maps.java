@@ -520,7 +520,7 @@ public class Maps extends AppCompatActivity
                         })
                         .show(new Pop.View() { // assign value to view element
                             @Override
-                            public void prepare(View view) {
+                            public void prepare(final View view) {
                                 EditText edtNamPetsHop = (EditText) view.findViewById(R.id.edtPetshop);
                                 EditText edAlamat = (EditText) view.findViewById(R.id.edtAlamat);
                                 edtNamPetsHop.setText(nama);
@@ -530,20 +530,25 @@ public class Maps extends AppCompatActivity
                                 goRoutes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        gmmIntentUri = Uri.parse("google.navigation:q=" + slat+","+slon);
-
-                                        // Buat Uri dari intent gmmIntentUri. Set action => ACTION_VIEW
-                                        mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-
-                                        // Set package Google Maps untuk tujuan aplikasi yang di Intent yaitu google maps
-                                        mapIntent.setPackage(goolgeMap);
-
-                                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                                            startActivity(mapIntent);
-                                        } else {
-                                            Toast.makeText(Maps.this, "Google Maps Belum Terinstal. Install Terlebih dahulu.",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
+                                        Intent i = new Intent(view.getContext(), NavigateRoutes.class);
+                                        i.putExtra("lat", slat);
+                                        i.putExtra("lon", slon);
+                                        startActivity(i);
+                                        finish();
+//                                        gmmIntentUri = Uri.parse("google.navigation:q=" + slat+","+slon);
+//
+//                                        // Buat Uri dari intent gmmIntentUri. Set action => ACTION_VIEW
+//                                        mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//
+//                                        // Set package Google Maps untuk tujuan aplikasi yang di Intent yaitu google maps
+//                                        mapIntent.setPackage(goolgeMap);
+//
+//                                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+//                                            startActivity(mapIntent);
+//                                        } else {
+//                                            Toast.makeText(Maps.this, "Google Maps Belum Terinstal. Install Terlebih dahulu.",
+//                                                    Toast.LENGTH_LONG).show();
+//                                        }
                                     }
                                 });
                             }
