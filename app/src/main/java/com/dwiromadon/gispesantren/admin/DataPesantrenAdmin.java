@@ -14,9 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -57,6 +59,11 @@ public class DataPesantrenAdmin extends AppCompatActivity
 
     ArrayList<ModelPesantren> newsList = new ArrayList<ModelPesantren>();
     private RequestQueue mRequestQueue;
+
+    int socketTimeout = 500000;
+    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +207,7 @@ public class DataPesantrenAdmin extends AppCompatActivity
             }
         });
 
+        req.setRetryPolicy(policy);
         /* Add your Requests to the RequestQueue to execute */
         mRequestQueue.add(req);
     }
