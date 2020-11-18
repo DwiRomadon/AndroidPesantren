@@ -67,7 +67,7 @@ public class DataPesantrenPengguna extends AppCompatActivity
     private RequestQueue mRequestQueue;
 
     EditText edtSearch;
-    //dad
+
     int socketTimeout = 500000;
     RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
